@@ -1,36 +1,45 @@
 package tests;
 
+import io.qameta.allure.Allure;
+import io.qameta.allure.Description;
 import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
+import logger.LogConfigExtractor;
 import org.apache.http.HttpStatus;
-import org.testng.Assert;
 import org.testng.ITestContext;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.reporters.JUnitXMLReporter;
+import steps.api.ExampleSteps;
+import utils.allure.AllureEnvironment;
 
-import static io.restassured.RestAssured.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 public class ExampleTest {
-
-    private static final String BASE_URL = "https://jsonplaceholder.typicode.com/";
-    private static final String BASE_ENDPOINT = "posts";
 
     @BeforeClass
     public void setupListeners(ITestContext context) {
         context.getSuite().addListener(new JUnitXMLReporter());
     }
 
-    @Test
-    public void exampleTest() {
-        Response response = buildBaseRequest()
-                .get(String.format("%s/1", BASE_ENDPOINT));
-        Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK, "Incorrect status");
-        String responseBody = response.getBody().asString();
-        Assert.assertTrue(responseBody.contains("title"), "Incorrect body");
+    @BeforeMethod
+    public void setUp() {
+        AllureEnvironment.clearFile();
+        AllureEnvironment.setValue("BASE_URL", ExampleSteps.BASE_URL);
     }
 
-    private RequestSpecification buildBaseRequest() {
-        return given().baseUri(BASE_URL);
+    @AfterMethod
+    public void addAttachment() throws FileNotFoundException {
+        Allure.addAttachment("Log", new FileInputStream(LogConfigExtractor.LOG_FILE_PATH));
+    }
+
+    @Test(description = "JsonPlaceholder API Test")
+    @Description("JsonPlaceholder API testing")
+    public void exampleTest() {
+        Response response = ExampleSteps.request(1);
+        ExampleSteps.checkStatusCode(response, HttpStatus.SC_OK);
+        ExampleSteps.checkResponseBody(response);
     }
 }
