@@ -1,0 +1,5 @@
+2025-06-04 12:31:59 INFO  - allure-results directory has been deleted
+2025-06-04 12:31:59 INFO  - allure-results directory has been created
+2025-06-04 12:31:59 INFO  - environments.properties has been created in allure-results
+2025-06-04 12:31:59 INFO  - environments.properties has been cleared
+2025-06-04 12:31:59 INFO  - set environments.properties value: [BASE_URL=https://jsonplaceholder.typicode.com/]
