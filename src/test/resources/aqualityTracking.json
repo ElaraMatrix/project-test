@@ -3,11 +3,11 @@
   "host": "http://localhost:8888",
   "token": "4baaa7e8-eac5-4d38-aac7-f6f0ba9af8431749024116574",
   "projectId": 1,
-  "executor": "{name_of_executor}",
-  "suiteName": "{name_of_test_suite}",
-  "buildName": "{name_of_ci_build}",
-  "environment": "{name_of_execution_environment}",
-  "ciBuild": "{link_to_ci_build}",
+  "executor": "Main Executor",
+  "suiteName": "Main Suite",
+  "buildName": "Default CI build",
+  "environment": "UAT",
+  "ciBuild": "http://localhost:8888",
   "debug": false,
   "attachmentsDirectory": "target/attachments"
 }
